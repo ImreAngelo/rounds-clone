@@ -1,0 +1,9 @@
+[package]
+name = "rounds"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = "0.18.1"
+bevy_enhanced_input = "0.24.1"
+leafwing-input-manager = "0.20.0"
