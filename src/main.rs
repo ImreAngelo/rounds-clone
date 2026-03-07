@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 
-mod player;
+mod game;
 mod camera;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugins(player::PlayerPlugin)
+        .add_plugins(game::GamePlugin)
         .add_plugins(camera::CameraPlugin)
         .run();
 }
