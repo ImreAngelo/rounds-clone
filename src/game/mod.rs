@@ -1,4 +1,5 @@
-use bevy::prelude::*;
+use bevy::{camera::visibility::RenderLayers, prelude::*};
+use bevy_lunex::UiSourceCamera;
 
 mod player;
 
@@ -13,6 +14,10 @@ impl Plugin for GamePlugin {
                 Update, 
                 start_game_on_enter
                     .run_if(in_state(AppState::Lobby))
+            )
+            .add_systems(
+                Startup,
+                spawn_camera
             );
     }
 }
@@ -36,4 +41,22 @@ fn start_game_on_enter(
         println!("Starting game.");
 		next_state.set(AppState::InGame);
 	}
+}
+
+
+/// DEBUG: Spawn UI camera
+fn spawn_camera(mut commands: Commands) {
+    // Spawn the camera
+    commands.spawn((
+
+        // This camera will become the source for all UI paired to index 0.
+        Camera2d, UiSourceCamera::<0>,
+        
+        // Ui nodes start at 0 and move + on the Z axis with each depth layer.
+        // This will ensure you will see up to 1000 nested children.
+        Transform::from_translation(Vec3::Z * 1000.0),
+        
+        // Explained in # Chapters/Debug-Tooling section of the book
+        RenderLayers::from_layers(&[0, 1]),
+    ));
 }

@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 bevy = "0.18.1"
 bevy_enhanced_input = "0.24.1"
+bevy_lunex = { version = "*" }

@@ -10,20 +10,12 @@ pub fn spawn_players(
 	controllers: Query<(Entity, &PlayerController), (With<PlayerController>, Without<Controls>)>,
 ) {
 	for (controller, player) in &controllers {
-		// let x = player.id as f32 * 100.0 - 150.0;
-
-        info!("Spawning player {}", player.id);
+		let x = player.id as f32 * 100.0 - 150.0;
 
 		let pawn = commands
-			// .spawn((
-			// 	Pawn { id: player.id },
-			// 	// Transform::from_xyz(x, 0.0, 0.0),
-            //     Transform::IDENTITY,
-			// 	GlobalTransform::default(),
-			// ))
             .spawn((
                 Pawn { id: player.id },
-                Transform::from_xyz(0.0, 0.0, 0.0),
+                Transform::from_xyz(x, 0.0, 0.0),
                 Mesh2d(meshes.add(Circle::new(25.0))),
                 MeshMaterial2d(materials.add(Color::srgb(0.9, 0.2, 0.2))),
             ))
@@ -31,6 +23,6 @@ pub fn spawn_players(
 
 		commands.entity(controller).insert(Controls(pawn));
 
-		info!("spawned pawn for player {}", player.id + 1);
+		info!("Spawned pawn for player {}", player.id + 1);
 	}
 }

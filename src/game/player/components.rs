@@ -1,6 +1,10 @@
 use bevy::prelude::*;
 // use bevy_enhanced_input::prelude::*;
 
+/// The host takes control of the keyboard and first connected controller by default
+#[derive(Component)]
+pub struct HostKeyboardController;
+
 /// Used to assign IDs to player controllers
 #[derive(Resource, Default)]
 pub struct PlayerCount(pub usize);
