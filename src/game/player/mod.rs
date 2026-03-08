@@ -1,3 +1,4 @@
+mod bundles;
 mod components;
 mod plugin;
 mod spawn;

@@ -2,6 +2,7 @@ use bevy::{camera::visibility::RenderLayers, prelude::*};
 use bevy_lunex::UiSourceCamera;
 
 mod player;
+mod map;
 
 pub struct GamePlugin;
 
@@ -9,7 +10,10 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
             .init_state::<AppState>()
-            .add_plugins(player::PlayerPlugin)
+            .add_plugins((
+                player::PlayerPlugin,
+                map::MapPlugin
+            ))
             .add_systems(
                 Update, 
                 start_game_on_enter

@@ -1,36 +1,35 @@
 use bevy::prelude::*;
-// use bevy_enhanced_input::prelude::*;
 
 /// The host takes control of the keyboard and first connected controller by default
 #[derive(Component)]
-pub struct HostKeyboardController;
+pub(crate) struct HostKeyboardController;
 
 /// Used to assign IDs to player controllers
 #[derive(Resource, Default)]
-pub struct PlayerCount(pub usize);
+pub(crate) struct PlayerCount(pub(crate) usize);
 
 /// Player component, can move around etc.
 #[derive(Component)]
-pub struct Pawn {
-	pub id: usize,
+pub(crate) struct Pawn {
+	pub(crate) id: usize,
 }
 
 /// Controls a player
 #[derive(Component)]
-pub struct PlayerController {
-	pub id: usize,
+pub(crate) struct PlayerController {
+	id: usize,
+}
+
+impl PlayerController {
+	pub(crate) fn new(id: usize) -> Self {
+		Self { id }
+	}
+
+	pub(crate) fn id(&self) -> usize {
+		self.id
+	}
 }
 
 /// Links controller <-> player
 #[derive(Component)]
-pub struct Controls(pub Entity); 
-
-// /// Player input actions
-// #[derive(InputAction)]
-// #[action_output(bool)]
-// pub struct Jump;
-
-// /// Horizontal and vertical input
-// #[derive(InputAction)]
-// #[action_output(Vec2)]
-// pub struct Move;
+pub(crate) struct Controls(pub(crate) Entity); 

@@ -23,7 +23,7 @@ impl Plugin for PlayerPlugin {
                 )
                 .run_if(in_state(AppState::Lobby))
             )
-            .add_systems(
+            .add_systems( // TODO: Does this really belong here?
                 OnEnter(AppState::InGame), 
                 spawn_players
             );
