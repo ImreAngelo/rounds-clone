@@ -1,4 +1,6 @@
 use bevy::prelude::*;
+use bevy_tnua::TnuaScheme;
+use bevy_tnua::builtins::{TnuaBuiltinJump, TnuaBuiltinWalk};
 
 /// The host takes control of the keyboard and first connected controller by default
 #[derive(Component)]
@@ -32,4 +34,11 @@ impl PlayerController {
 
 /// Links controller <-> player
 #[derive(Component)]
-pub(crate) struct Controls(pub(crate) Entity); 
+pub(crate) struct Controls(pub(crate) Entity);
+
+/// Tnua control scheme for the player
+#[derive(TnuaScheme)]
+#[scheme(basis = TnuaBuiltinWalk)]
+pub(crate) enum PlayerScheme {
+    Jump(TnuaBuiltinJump),
+}

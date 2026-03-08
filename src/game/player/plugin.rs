@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::*;
+use bevy_tnua::prelude::*;
+use bevy_tnua_rapier2d::TnuaRapier2dPlugin;
 
 use crate::game::AppState;
 
@@ -10,11 +12,14 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app
-            .add_plugins(EnhancedInputPlugin)
+            .add_plugins((
+                EnhancedInputPlugin,
+                TnuaControllerPlugin::<PlayerScheme>::new(FixedUpdate),
+                TnuaRapier2dPlugin::new(FixedUpdate),
+            ))
             .add_input_context::<PlayerController>()
             .init_resource::<PlayerCount>()
-            .add_observer(apply_movement)
-            .add_observer(apply_jump)
+            .add_systems(Update, apply_controls.in_set(TnuaUserControlsSystems))
             .add_systems(Startup, setup)
             .add_systems(
                 Update, 

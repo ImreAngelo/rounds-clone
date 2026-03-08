@@ -1,5 +1,7 @@
 use bevy::{input::gamepad::GamepadConnectionEvent, prelude::*};
+use bevy_enhanced_input::action::relationship::ActionOf;
 use bevy_enhanced_input::prelude::*;
+use bevy_tnua::prelude::*;
 
 use super::components::*;
 use super::bundles::*;
@@ -57,24 +59,35 @@ pub fn join_on_gamepad_connect(
 }
 
 
-// TODO: use tnua
-pub fn apply_movement(
-	trigger: On<Fire<Move>>,
-	controllers: Query<&Controls, With<PlayerController>>,
-	mut pawns: Query<&mut Transform, With<Pawn>>,
+pub fn apply_controls(
+	controllers: Query<(Entity, &Controls), With<PlayerController>>,
+	move_actions: Query<(&Action<Move>, &ActionOf<PlayerController>)>,
+	jump_actions: Query<(&TriggerState, &ActionOf<PlayerController>), With<Action<Jump>>>,
+	mut pawns: Query<&mut TnuaController<PlayerScheme>, With<Pawn>>,
 ) {
-	let controls = controllers.get(trigger.context).unwrap();
-	let mut transform = pawns.get_mut(controls.0).unwrap();
-	transform.translation += trigger.value.extend(0.0);
-}
+	for (controller_entity, controls) in &controllers {
+		let Ok(mut controller) = pawns.get_mut(controls.0) else { continue };
+		controller.initiate_action_feeding();
 
-// TODO: use tnua
-pub fn apply_jump(
-	trigger: On<Start<Jump>>,
-	controllers: Query<&Controls, With<PlayerController>>,
-	mut pawns: Query<&mut Transform, With<Pawn>>,
-) {
-	let controls = controllers.get(trigger.context).unwrap();
-	let mut transform = pawns.get_mut(controls.0).unwrap();
-	transform.translation.y += 30.0;
+		let action_of = ActionOf::new(controller_entity);
+
+		let movement = move_actions
+			.iter()
+			.find(|(_, of)| **of == action_of)
+			.map(|(action, _)| action.extend(0.0))
+			.unwrap_or(Vec3::ZERO);
+
+		controller.basis = TnuaBuiltinWalk {
+			desired_motion: movement,
+			..Default::default()
+		};
+
+		let jumping = jump_actions
+			.iter()
+			.any(|(state, of)| *of == action_of && *state == TriggerState::Fired);
+
+		if jumping {
+			controller.action(PlayerScheme::Jump(Default::default()));
+		}
+	}
 }

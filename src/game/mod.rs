@@ -16,8 +16,7 @@ impl Plugin for GamePlugin {
             ))
             .add_systems(
                 Update, 
-                start_game_on_enter
-                    .run_if(in_state(AppState::Lobby))
+                toggle_state
             )
             .add_systems(
                 Startup,
@@ -37,14 +36,26 @@ enum AppState {
 }
 
 /// DEBUG: Switch game state
-fn start_game_on_enter(
+fn toggle_state(
 	keys: Res<ButtonInput<KeyCode>>,
+    current_state: Res<State<AppState>>,
 	mut next_state: ResMut<NextState<AppState>>,
 ) {
-	if keys.just_pressed(KeyCode::Enter) {
-        println!("Starting game.");
-		next_state.set(AppState::InGame);
-	}
+	if !keys.just_pressed(KeyCode::Enter) { return; }
+    
+    match current_state.get() {
+        AppState::Lobby => {
+            println!("Starting game.");
+            next_state.set(AppState::InGame);
+        },
+        AppState::InGame => {
+            println!("Returning to lobby.");
+            next_state.set(AppState::Lobby);
+        }
+        _ => {
+            println!("Unknown state/transition.")
+        }
+    }
 }
 
 

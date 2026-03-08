@@ -1,8 +1,31 @@
 use bevy::prelude::*;
 use bevy_enhanced_input::prelude::*;
+use bevy_rapier2d::prelude::*;
+use bevy_tnua::prelude::*;
+use bevy_tnua::builtins::{TnuaBuiltinJumpConfig, TnuaBuiltinWalkConfig};
 
 use super::components::*;
 use super::systems::{Jump, Move};
+
+/// Physics and Tnua components shared by all pawns
+pub fn pawn_physics_bundle(scheme_configs: &mut Assets<PlayerSchemeConfig>) -> impl Bundle {
+    (
+        RigidBody::Dynamic,
+        Collider::ball(25.0),
+        LockedAxes::ROTATION_LOCKED,
+        TnuaController::<PlayerScheme>::default(),
+        TnuaConfig::<PlayerScheme>(scheme_configs.add(PlayerSchemeConfig {
+            basis: TnuaBuiltinWalkConfig {
+                float_height: 30.0,
+                ..Default::default()
+            },
+            jump: TnuaBuiltinJumpConfig {
+                height: 64.0,
+                ..Default::default()
+            },
+        })),
+    )
+}
 
 /// Host controller accepts keyboard and (optionally) controller input
 pub fn host_controller_bundle(id: usize) -> impl Bundle {

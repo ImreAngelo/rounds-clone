@@ -8,8 +8,7 @@ pub struct MapPlugin;
 impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
-            // OnEnter(AppState::InGame), 
-            Startup,
+            OnEnter(AppState::InGame), 
             spawn_debug_map
         );
     }
@@ -24,15 +23,13 @@ fn spawn_debug_map(
     let half_width = 512.0;
     let half_height = 32.0;
 
-    commands
-        .spawn((
-            Collider::cuboid(half_width, half_height),
-            Mesh2d(meshes.add(Rectangle::new(half_width*2.0, half_height*2.0))),
-            MeshMaterial2d(materials.add(Color::srgb(0.0, 0.2, 0.0))),
-        ))
-        .insert(Sensor)
-        .insert(Transform::from_xyz(0.0, 0.0, 0.0))
-        .insert(Friction::coefficient(0.7))
-        .insert(Restitution::coefficient(0.3))
-        .insert(ColliderMassProperties::Density(2.0));
+    commands.spawn((
+        RigidBody::Fixed,
+        Collider::cuboid(half_width, half_height),
+        Friction::coefficient(0.7),
+        Restitution::coefficient(0.3),
+        Transform::from_xyz(0.0, -100.0, 0.0),
+        Mesh2d(meshes.add(Rectangle::new(half_width * 2.0, half_height * 2.0))),
+        MeshMaterial2d(materials.add(Color::srgb(0.0, 0.2, 0.0))),
+    ));
 }
