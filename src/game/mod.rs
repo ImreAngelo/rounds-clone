@@ -52,9 +52,9 @@ fn toggle_state(
             println!("Returning to lobby.");
             next_state.set(AppState::Lobby);
         }
-        _ => {
-            println!("Unknown state/transition.")
-        }
+        // _ => {
+        //     println!("Unknown state/transition.")
+        // }
     }
 }
 
