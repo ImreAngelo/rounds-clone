@@ -11,7 +11,7 @@ all: dev
 dev: dev-$(PLATFORM)
 
 dev-wsl-win64: # TODO: --features "fast_compile"
-	@cargo run --target x86_64-pc-windows-gnu --features "fast_compile"
+	@cargo run --target x86_64-pc-windows-gnu
 
 dev-win64: # WARN: Not tested with msvc target
 	@cargo run --target x86_64-pc-windows-msvc --features "fast_compile"

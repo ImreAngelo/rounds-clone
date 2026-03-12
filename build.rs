@@ -2,9 +2,10 @@ use std::{env, fs, path::PathBuf};
 
 fn main() {
     if env::var("CARGO_CFG_TARGET_OS").unwrap_or_default() != "windows" {
-        println!("cargo:warning=Not building for windows...");
         return;
     }
+
+    println!("cargo:warning=Including steam_api64.dll");
 
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
     // OUT_DIR = target/<triple>/<profile>/build/<pkg>-<hash>/out
