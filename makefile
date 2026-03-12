@@ -1,18 +1,20 @@
 .phony: all build build-win64 build-linux dev dev-wsl dev-win64 dev-linux setup-steamworks clean help
 
+PLATFORM ?= wsl-win64
+
 all: dev
 
 #################
 ## Development ##
 #################
 
-dev: dev-wsl-win64
+dev: dev-$(PLATFORM)
 
 dev-wsl-win64: # TODO: --features "fast_compile"
-	@cargo run --target x86_64-pc-windows-gnu
+	@cargo run --target x86_64-pc-windows-gnu --features "fast_compile"
 
 dev-win64: # WARN: Not tested with msvc target
-	@cargo run --target x86_64-pc-windows-msvc
+	@cargo run --target x86_64-pc-windows-msvc --features "fast_compile"
 
 dev-linux:
 	@cargo run --features "fast_compile"
@@ -21,13 +23,13 @@ dev-linux:
 ## Build ##
 ###########
 
-build: build-wsl-win64 build-linux
+build: build-$(PLATFORM)
 
 build-wsl-win64: 
-	@cargo build --target x86_64-pc-windows-gnu --release
+	@cargo build --release --target x86_64-pc-windows-gnu
 
 build-win64: # WARN: Not tested with msvc target
-	@cargo build --target x86_64-pc-windows-gnu --release
+	@cargo build --release --target x86_64-pc-windows-msvc
 
 build-linux:
 	@cargo build --release

@@ -29,7 +29,6 @@ opt-level = 3
 opt-level = 3
 # Compile the entire crate as one unit. Slows compile times, marginal improvements.
 codegen-units = 1
-# Enable link-time optimization.
-# Do a second optimization pass over the entire program, including dependencies.
+# Enable link-time optimization. Do a second optimization pass over the entire program, including dependencies.
 lto = "thin"
 strip = "debuginfo"
