@@ -1,3 +1,6 @@
+# Config based on
+# https://github.com/bevyengine/bevy/blob/latest/.cargo/config_fast_builds.toml
+
 # Compile to windows from WSL with mingw32-gcc
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"

@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use bevy::prelude::*;
 use bevy_lunex::UiLunexPlugins;
 use bevy_rapier2d::plugin::{NoUserData, RapierPhysicsPlugin};
