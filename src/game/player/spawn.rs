@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy_tnua_rapier2d::prelude::*;
 
 use super::bundles::*;
 use super::components::*;

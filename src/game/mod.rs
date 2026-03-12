@@ -8,6 +8,10 @@ pub struct GamePlugin;
 
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
+
+        info!("Starting game plugin.");
+
+
         app
             .init_state::<AppState>()
             .add_plugins((
@@ -45,11 +49,11 @@ fn toggle_state(
     
     match current_state.get() {
         AppState::Lobby => {
-            println!("Starting game.");
+            info!("Starting game.");
             next_state.set(AppState::InGame);
         },
         AppState::InGame => {
-            println!("Returning to lobby.");
+            info!("Returning to lobby.");
             next_state.set(AppState::Lobby);
         }
         // _ => {

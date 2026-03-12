@@ -7,7 +7,11 @@ edition = "2024"
 bevy = "0.18.1"
 bevy_enhanced_input = "0.24.1"
 bevy_lunex = { version = "*" }
-bevy-steamworks = "0.16"
+bevy-steamworks = { version = "0.16", optional = true }
 bevy_rapier2d = { version = "0.33" } # features = [ "simd-stable", "debug-render-2d" ]
 bevy-tnua = "0.30.0"
 bevy-tnua-rapier2d = "0.16.0"
+
+[features]
+default = ["steamworks"]
+steamworks = ["bevy-steamworks"]
