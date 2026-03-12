@@ -1,7 +1,7 @@
 # Compile to windows from WSL with mingw32-gcc
 [target.x86_64-pc-windows-gnu]
 linker = "x86_64-w64-mingw32-gcc"
-runner = "./.cargo/run-wsl-win64.sh"
+runner = "./.cargo/win64-dev.sh"
 rustflags = [
   "-Zshare-generics=n", # This needs to be off if you use dynamic linking on Windows.
   "-Zthreads=0",
