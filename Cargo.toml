@@ -32,14 +32,4 @@ codegen-units = 1
 # Enable link-time optimization.
 # Do a second optimization pass over the entire program, including dependencies.
 lto = "thin"
-strip = "debuginfo" 
-
-# # Windows dev profile: same as dev but forces LLVM (Cranelift doesn't support Windows cross-compilation)
-# [profile.dev-win64]
-# inherits = "dev"
-# codegen-backend = "llvm"
-
-# [profile.dev-win64.package."*"]
-# inherits = "dev"
-# opt-level = 3
-# codegen-backend = "llvm"
+strip = "debuginfo"

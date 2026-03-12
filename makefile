@@ -1,20 +1,18 @@
 .phony: all build build-win64 build-linux dev dev-wsl dev-win64 dev-linux setup-steamworks clean help
 
-STEAMWORKS_SDK_PATH ?= $(HOME)/.steamworks/sdk
-
 all: dev
 
 #################
 ## Development ##
 #################
 
-dev: dev-wsl
+dev: dev-wsl-win64
 
-dev-wsl:
-	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo run --target x86_64-pc-windows-gnu
+dev-wsl-win64: # TODO: --features "fast_compile"
+	@cargo run --target x86_64-pc-windows-gnu
 
-dev-win64: # --features "fast_compile"
-	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo run --target x86_64-pc-windows-msvc
+dev-win64: # WARN: Not tested with msvc target
+	@cargo run --target x86_64-pc-windows-msvc
 
 dev-linux:
 	@cargo run --features "fast_compile"
@@ -23,10 +21,13 @@ dev-linux:
 ## Build ##
 ###########
 
-build: build-win64 build-linux
+build: build-wsl-win64 build-linux
 
-build-win64: # WARN: Only tested on WSL, using msvc target might be better on native windows
-	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo build --target x86_64-pc-windows-gnu --release
+build-wsl-win64: 
+	@cargo build --target x86_64-pc-windows-gnu --release
+
+build-win64: # WARN: Not tested with msvc target
+	@cargo build --target x86_64-pc-windows-gnu --release
 
 build-linux:
 	@cargo build --release
