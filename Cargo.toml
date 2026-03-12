@@ -4,7 +4,7 @@ version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-bevy = "0.18.1"
+bevy = { version = "0.18.1" }
 bevy_enhanced_input = "0.24.1"
 bevy_lunex = { version = "*" }
 bevy-steamworks = { version = "0.16" }
@@ -12,9 +12,9 @@ bevy_rapier2d = { version = "0.33" } # features = [ "simd-stable", "debug-render
 bevy-tnua = "0.30.0"
 bevy-tnua-rapier2d = "0.16.0"
 
-# Compile to windows from WSL with mingw32-gcc
-[target.x86_64-pc-windows-gnu]
-linker = "x86_64-w64-mingw32-gcc"
+# Dynamic linking in dev mode
+[features]
+fast_compile = ["bevy/dynamic_linking"] 
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
@@ -27,11 +27,19 @@ opt-level = 3
 # Enable more optimization in the release profile at the cost of compile time.
 [profile.release]
 opt-level = 3
-# Compile the entire crate as one unit.
-# Slows compile times, marginal improvements.
+# Compile the entire crate as one unit. Slows compile times, marginal improvements.
 codegen-units = 1
 # Enable link-time optimization.
 # Do a second optimization pass over the entire program, including dependencies.
 lto = "thin"
-# Strips debug symbols from the binary to reduce size
 strip = "debuginfo" 
+
+# # Windows dev profile: same as dev but forces LLVM (Cranelift doesn't support Windows cross-compilation)
+# [profile.dev-win64]
+# inherits = "dev"
+# codegen-backend = "llvm"
+
+# [profile.dev-win64.package."*"]
+# inherits = "dev"
+# opt-level = 3
+# codegen-backend = "llvm"
