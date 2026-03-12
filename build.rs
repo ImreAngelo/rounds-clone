@@ -3,12 +3,8 @@ use std::path::PathBuf;
 
 fn main() {
     // Only copy DLL when steamworks feature is enabled
-    if !cfg!(feature = "steamworks") {
-        return;
-    }
-
-    // // TODO: Only copy for Windows targets
-    // if !cfg!(target_os = "windows") {
+    // TODO: Only copy for Windows targets
+    // if !cfg!(feature = "steamworks-dll") {
     //     return;
     // }
 
@@ -29,12 +25,9 @@ fn main() {
 
     let out_dir = env::var("OUT_DIR").unwrap();
     let dll_dest = PathBuf::from(&out_dir)
-        .parent()
-        .unwrap()
-        .parent()
-        .unwrap()
-        .parent()
-        .unwrap()
+        .parent().unwrap()
+        .parent().unwrap()
+        .parent().unwrap()
         .join("steam_api64.dll");
 
     std::fs::copy(&dll_src, &dll_dest).expect("Failed to copy steam_api64.dll");
