@@ -1,6 +1,6 @@
 .phony: all build build-win64 build-linux dev dev-wsl dev-win64 dev-linux setup-steamworks clean help
 
-PLATFORM ?= wsl
+PLATFORM ?= linux
 
 all: dev
 

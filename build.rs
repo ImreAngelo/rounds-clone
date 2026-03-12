@@ -43,8 +43,10 @@ fn setup_windows_debug(build_dir: &Path, exe_dir: &Path) {
         println!("cargo:warning=steam_api64.dll not found in steamworks-sys build output");
     }
 
-    // bevy_dylib-<hash>.dll and any other dylib deps
+    // bevy_dylib-<hash>.dll and any other dylib deps.
+    // Watch the deps/ directory so this script re-runs whenever a new DLL hash appears.
     let deps_dir = exe_dir.join("deps");
+    println!("cargo:rerun-if-changed={}", deps_dir.display());
     if let Ok(entries) = fs::read_dir(&deps_dir) {
         for entry in entries.flatten() {
             let name = entry.file_name();
