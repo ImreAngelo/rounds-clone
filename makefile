@@ -1,8 +1,9 @@
 .phony: all build build-win64 build-linux dev dev-wsl dev-win64 dev-linux setup-steamworks clean help
 
-PLATFORM ?= wsl-win64
+PLATFORM ?= wsl
 
 all: dev
+
 
 #################
 ## Development ##
@@ -10,14 +11,15 @@ all: dev
 
 dev: dev-$(PLATFORM)
 
-dev-wsl-win64: # TODO: --features "fast_compile"
+dev-wsl:
 	@cargo run --target x86_64-pc-windows-gnu --features "fast_compile"
 
-dev-win64: # WARN: Not tested with msvc target
+dev-win64: # WARN: Not tested with msvc target # TODO: Check out https://github.com/rust-cross/cargo-xwin
 	@cargo run --target x86_64-pc-windows-msvc --features "fast_compile"
 
 dev-linux:
 	@cargo run --features "fast_compile"
+
 
 ###########
 ## Build ##
@@ -25,7 +27,7 @@ dev-linux:
 
 build: build-$(PLATFORM)
 
-build-wsl-win64: 
+build-wsl: 
 	@cargo build --release --target x86_64-pc-windows-gnu
 
 build-win64: # WARN: Not tested with msvc target
@@ -33,6 +35,7 @@ build-win64: # WARN: Not tested with msvc target
 
 build-linux:
 	@cargo build --release
+	
 
 ###########
 ## Setup ##
@@ -41,6 +44,7 @@ build-linux:
 setup-steamworks:
 	@ln -s ~/snap/steam/common/.steam ~/.steam
 	
+
 #############
 ## Utility ##
 #############

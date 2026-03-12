@@ -1,7 +1,9 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
 fn main() {
-    if env::var("CARGO_CFG_TARGET_OS").unwrap_or_default() != "windows" {
+    if env::var("CARGO_CFG_TARGET_OS").unwrap_or_default() != "windows"
+        || env::var("PROFILE").unwrap_or_default() != "debug"
+    {
         return;
     }
 
