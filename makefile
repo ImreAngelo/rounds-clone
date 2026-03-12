@@ -1,4 +1,4 @@
-.phony: all build build-win64 build-linux dev dev-win64 dev-linux setup-steamworks clean help
+.phony: all build build-win64 build-linux dev dev-wsl dev-win64 dev-linux setup-steamworks clean help
 
 STEAMWORKS_SDK_PATH ?= $(HOME)/.steamworks/sdk
 
@@ -8,10 +8,14 @@ all: dev
 ## Development ##
 #################
 
-dev: dev-win64
+dev: dev-linux
 
-dev-win64: # WARN: Only tested on WSL
-	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo run --target x86_64-pc-windows-gnu
+dev-wsl: # 
+	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo build --target x86_64-pc-windows-gnu --release
+	@./target/x86_64-pc-windows-gnu/release/rounds.exe
+
+# dev-win64:
+# 	@STEAMWORKS_SDK_PATH=${STEAMWORKS_SDK_PATH} cargo run --target x86_64-pc-windows-gnu
 
 dev-linux:
 	@cargo run
