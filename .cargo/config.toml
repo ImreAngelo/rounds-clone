@@ -9,14 +9,11 @@ rustflags = [
 
 [target.x86_64-unknown-linux-gnu]
 rustflags = [
-  # Mold linker
-  #
-  # You may need to install it:
-  #
-  # - Ubuntu: `sudo apt-get install mold clang`
-  # - Fedora: `sudo dnf install mold clang`
-  # - Arch: `sudo pacman -S mold clang`
-  # "-Clink-arg=-fuse-ld=mold",
+  # Mold linker - You may need to install it:
+  # ```
+  # sudo apt-get install mold clang
+  # ```
+  "-Clink-arg=-fuse-ld=mold",
 
   # Nightly
   "-Zshare-generics=y",
@@ -25,8 +22,7 @@ rustflags = [
 # Some systems may experience linker performance issues when running doc tests.
 # See https://github.com/bevyengine/bevy/issues/12207 for details.
 rustdocflags = [
-  # Mold linker
-  # "-Clink-arg=-fuse-ld=mold",
+  "-Clink-arg=-fuse-ld=mold",
 ]
 
 [target.x86_64-pc-windows-msvc]
