@@ -43,6 +43,9 @@ build-linux:
 
 setup-steamworks:
 	@ln -s ~/snap/steam/common/.steam ~/.steam
+
+fonts:
+	$(MAKE) -C assets/fonts 
 	
 
 #############
