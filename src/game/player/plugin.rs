@@ -20,6 +20,7 @@ impl Plugin for PlayerPlugin {
             .add_input_context::<PlayerController>()
             .init_resource::<PlayerCount>()
             .add_systems(Update, apply_controls.in_set(TnuaUserControlsSystems))
+            .add_systems(Update, update_hand)
             .add_systems(Startup, setup)
             .add_systems(
                 Update, 

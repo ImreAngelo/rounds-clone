@@ -36,6 +36,10 @@ impl PlayerController {
 #[derive(Component)]
 pub(crate) struct Controls(pub(crate) Entity);
 
+/// Marks the hand debug circle (child of Pawn)
+#[derive(Component)]
+pub(crate) struct Hand;
+
 /// Tnua control scheme for the player
 #[derive(TnuaScheme)]
 #[scheme(basis = TnuaBuiltinWalk)]

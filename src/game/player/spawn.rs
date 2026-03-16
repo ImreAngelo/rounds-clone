@@ -3,6 +3,8 @@ use bevy::prelude::*;
 use super::bundles::*;
 use super::components::*;
 
+const HAND_RADIUS: f32 = 41.0;
+
 /// Spawn players on map. Only spawn players that are not alive.
 pub fn spawn_players(
 	mut commands: Commands,
@@ -26,6 +28,12 @@ pub fn spawn_players(
 				parent.spawn(( // DEBUG: Show arm target
 					Mesh2d(meshes.add(Annulus::new(40.0, 42.0))),
 					MeshMaterial2d(materials.add(Color::srgb(1.0, 1.0, 1.0))),
+				));
+				parent.spawn(( // DEBUG: Hand
+					Hand,
+					Transform::from_xyz(0.0, HAND_RADIUS, 1.0),
+					Mesh2d(meshes.add(Circle::new(5.0))),
+					MeshMaterial2d(materials.add(Color::srgb(1.0, 0.5, 0.0))),
 				));
 			})
 			.id();

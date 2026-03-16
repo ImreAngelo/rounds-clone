@@ -5,7 +5,7 @@ use bevy_tnua::prelude::*;
 use bevy_tnua::builtins::{TnuaBuiltinJumpConfig, TnuaBuiltinWalkConfig};
 
 use super::components::*;
-use super::systems::{Jump, Move};
+use super::systems::{Aim, Jump, Move};
 
 /// Physics and Tnua components shared by all pawns
 pub fn pawn_physics_bundle(scheme_configs: &mut Assets<PlayerSchemeConfig>) -> impl Bundle {
@@ -54,6 +54,11 @@ pub fn host_controller_bundle(id: usize) -> impl Bundle {
                     GamepadButton::South,
                 ],
             ),
+            (
+                Action::<Aim>::new(),
+                DeadZone::default(),
+                Bindings::spawn(Axial::right_stick()),
+            ),
         ]),
     )
 }
@@ -74,6 +79,11 @@ pub fn gamepad_controller_bundle(id: usize, gamepad: Entity) -> impl Bundle {
             (
                 Action::<Jump>::new(),
                 bindings![GamepadButton::South],
+            ),
+            (
+                Action::<Aim>::new(),
+                DeadZone::default(),
+                Bindings::spawn(Axial::right_stick()),
             ),
         ]),
     )

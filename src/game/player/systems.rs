@@ -6,6 +6,8 @@ use bevy_tnua::prelude::*;
 use super::components::*;
 use super::bundles::*;
 
+const HAND_RADIUS: f32 = 41.0;
+
 #[derive(InputAction)]
 #[action_output(Vec2)]
 pub(crate) struct Move;
@@ -13,6 +15,10 @@ pub(crate) struct Move;
 #[derive(InputAction)]
 #[action_output(bool)]
 pub(crate) struct Jump;
+
+#[derive(InputAction)]
+#[action_output(Vec2)]
+pub(crate) struct Aim;
 
 
 /// Create a host controller on startup
@@ -88,6 +94,58 @@ pub fn apply_controls(
 
 		if jumping {
 			controller.action(PlayerScheme::Jump(Default::default()));
+		}
+	}
+}
+
+pub fn update_hand(
+	controllers: Query<(Entity, &Controls), With<PlayerController>>,
+	aim_actions: Query<(&Action<Aim>, &ActionOf<PlayerController>)>,
+	pawns: Query<(&GlobalTransform, &Children), With<Pawn>>,
+	mut hands: Query<&mut Transform, With<Hand>>,
+	windows: Query<&Window>,
+	cameras: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
+) {
+	let mouse_world = windows.single().ok()
+		.and_then(|w| w.cursor_position())
+		.and_then(|cursor| {
+			let (cam, cam_tf) = cameras.single().ok()?;
+			cam.viewport_to_world_2d(cam_tf, cursor).ok()
+		});
+
+	for (controller_entity, controls) in &controllers {
+		let Ok((pawn_gtf, children)) = pawns.get(controls.0) else { continue };
+
+		let action_of = ActionOf::new(controller_entity);
+		let aim = aim_actions
+			.iter()
+			.find(|(_, of)| **of == action_of)
+			.map(|(action, _)| Vec2::new(action.x, action.y));
+
+		let pawn_pos = pawn_gtf.translation().truncate();
+
+		let direction = 'dir: {
+			// Right stick with meaningful deflection → gamepad aim
+			if let Some(stick) = aim {
+				if stick.length_squared() > 0.01 {
+					break 'dir stick.normalize();
+				}
+			}
+			// Fallback: mouse cursor projected onto the circle
+			if let Some(mouse) = mouse_world {
+				let delta = mouse - pawn_pos;
+				if delta.length_squared() > 0.001 {
+					break 'dir delta.normalize();
+				}
+			}
+			Vec2::Y
+		};
+
+		for &child in children {
+			if let Ok(mut hand_tf) = hands.get_mut(child) {
+				hand_tf.translation = (direction * HAND_RADIUS).extend(1.0);
+				break;
+			}
 		}
 	}
 }
