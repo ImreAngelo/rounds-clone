@@ -22,6 +22,12 @@ pub fn spawn_players(
                 MeshMaterial2d(materials.add(Color::srgb(0.9, 0.2, 0.2))),
                 pawn_physics_bundle(&mut scheme_configs),
             ))
+			.with_children(|parent| {
+				parent.spawn(( // DEBUG: Show arm target
+					Mesh2d(meshes.add(Annulus::new(40.0, 42.0))),
+					MeshMaterial2d(materials.add(Color::srgb(1.0, 1.0, 1.0))),
+				));
+			})
 			.id();
 
 		commands.entity(controller).insert(Controls(pawn));

@@ -18,6 +18,8 @@ pub fn pawn_physics_bundle(scheme_configs: &mut Assets<PlayerSchemeConfig>) -> i
             basis: TnuaBuiltinWalkConfig {
                 float_height: 64.0,
                 speed: 128.0,
+                acceleration: 2000.0,
+                air_acceleration: 1000.0,
                 ..Default::default()
             },
             jump: TnuaBuiltinJumpConfig {
