@@ -4,8 +4,10 @@ A Rust clone of the game [Rounds](https://store.steampowered.com/app/1557740/ROU
 - Performance and size improvements from using Rust and the [Bevy engine](https://bevy.org/) instead of Unity
 
 <h2>Install Instructions</h2>
+<p>
 To ensure linux and windows compatibility, the game is developed in WSL2. 
 Other operative systems are not tested but should be possible to support with minimal changes.
+</p>
 
 > [!NOTE]
 > To quickly change target platform, set the PLATFORM variable with make:
