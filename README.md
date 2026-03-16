@@ -1,7 +1,7 @@
 <h1>Rust Rounds Clone</h1>
-A Rust clone of the game [Rounds](https://store.steampowered.com/app/1557740/ROUNDS/), with a few additional features:
+A Rust clone of the game <a href="https://store.steampowered.com/app/1557740/ROUNDS/">Rounds</a>, with a few additional features:
 - Multiplayer for more than 2 players
-- Performance and size improvements from using Rust and the [Bevy engine](https://bevy.org/) instead of Unity
+- Performance and size improvements from using Rust and the <a href="https://bevy.org/">Bevy engine</a> instead of Unity
 
 <h2>Install Instructions</h2>
 <p>
