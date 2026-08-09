@@ -5,7 +5,7 @@ use bevy_tnua::prelude::*;
 use bevy_tnua::builtins::{TnuaBuiltinJumpConfig, TnuaBuiltinWalkConfig};
 
 use super::components::*;
-use super::systems::{Jump, Move};
+use super::inputs::*;
 
 /// Physics and Tnua components shared by all pawns
 pub fn pawn_physics_bundle(scheme_configs: &mut Assets<PlayerSchemeConfig>) -> impl Bundle {
@@ -16,11 +16,14 @@ pub fn pawn_physics_bundle(scheme_configs: &mut Assets<PlayerSchemeConfig>) -> i
         TnuaController::<PlayerScheme>::default(),
         TnuaConfig::<PlayerScheme>(scheme_configs.add(PlayerSchemeConfig {
             basis: TnuaBuiltinWalkConfig {
-                float_height: 30.0,
+                float_height: 64.0,
+                speed: 128.0,
+                acceleration: 2000.0,
+                air_acceleration: 1000.0,
                 ..Default::default()
             },
             jump: TnuaBuiltinJumpConfig {
-                height: 64.0,
+                height: 128.0,
                 ..Default::default()
             },
         })),
@@ -35,7 +38,7 @@ pub fn host_controller_bundle(id: usize) -> impl Bundle {
         GamepadDevice::None,
         actions!(PlayerController[
             (
-                Action::<Move>::new(),
+                Action::<Movement>::new(),
                 DeadZone::default(),
                 DeltaScale::default(),
                 Scale::splat(300.0),
@@ -51,6 +54,15 @@ pub fn host_controller_bundle(id: usize) -> impl Bundle {
                     GamepadButton::South,
                 ],
             ),
+            (
+                Action::<Aim>::new(),
+                DeadZone::default(),
+                Bindings::spawn(Axial::right_stick()),
+            ),
+            (
+                Action::<Shoot>::new(),
+                bindings![MouseButton::Left]
+            ),
         ]),
     )
 }
@@ -62,7 +74,7 @@ pub fn gamepad_controller_bundle(id: usize, gamepad: Entity) -> impl Bundle {
         GamepadDevice::Single(gamepad),
         actions!(PlayerController[
             (
-                Action::<Move>::new(),
+                Action::<Movement>::new(),
                 DeadZone::default(),
                 DeltaScale::default(),
                 Scale::splat(300.0),
@@ -71,6 +83,15 @@ pub fn gamepad_controller_bundle(id: usize, gamepad: Entity) -> impl Bundle {
             (
                 Action::<Jump>::new(),
                 bindings![GamepadButton::South],
+            ),
+            (
+                Action::<Aim>::new(),
+                DeadZone::default(),
+                Bindings::spawn(Axial::right_stick()),
+            ),
+            (
+                Action::<Shoot>::new(),
+                bindings![GamepadButton::RightTrigger]
             ),
         ]),
     )

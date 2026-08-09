@@ -13,7 +13,7 @@ pub(crate) struct PlayerCount(pub(crate) usize);
 /// Player component, can move around etc.
 #[derive(Component)]
 pub(crate) struct Pawn {
-	pub(crate) id: usize,
+	pub(crate) _id: usize,
 }
 
 /// Controls a player
@@ -35,6 +35,10 @@ impl PlayerController {
 /// Links controller <-> player
 #[derive(Component)]
 pub(crate) struct Controls(pub(crate) Entity);
+
+/// Marks the hand debug circle (child of Pawn)
+#[derive(Component)]
+pub(crate) struct Hand;
 
 /// Tnua control scheme for the player
 #[derive(TnuaScheme)]

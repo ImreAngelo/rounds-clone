@@ -1,13 +1,35 @@
 [package]
 name = "rounds"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-bevy = "0.18.1"
+bevy = { version = "0.18.1" }
 bevy_enhanced_input = "0.24.1"
 bevy_lunex = { version = "*" }
-bevy-steamworks = "0.16"
+bevy-steamworks = { version = "0.16" }
 bevy_rapier2d = { version = "0.33" } # features = [ "simd-stable", "debug-render-2d" ]
 bevy-tnua = "0.30.0"
 bevy-tnua-rapier2d = "0.16.0"
+log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
+
+# Dynamic linking in dev mode
+[features]
+fast_compile = ["bevy/dynamic_linking"] 
+
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
+# Enable more optimization in the release profile at the cost of compile time.
+[profile.release]
+opt-level = 3
+# Compile the entire crate as one unit. Slows compile times, marginal improvements.
+codegen-units = 1
+# Enable link-time optimization. Do a second optimization pass over the entire program, including dependencies.
+lto = "thin"
+strip = "debuginfo"

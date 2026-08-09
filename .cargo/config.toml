@@ -1,0 +1,51 @@
+# Config based on
+# https://github.com/bevyengine/bevy/blob/latest/.cargo/config_fast_builds.toml
+
+# Compile to windows from WSL with mingw32-gcc
+[target.x86_64-pc-windows-gnu]
+linker = "x86_64-w64-mingw32-gcc"
+runner = "./.cargo/win64-dev.sh"
+rustflags = [
+  "-Zshare-generics=n", # This needs to be off if you use dynamic linking on Windows.
+  "-Zthreads=0",
+]
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = [
+  # Mold linker - You may need to install it:
+  # ```
+  # sudo apt-get install mold clang
+  # ```
+  "-Clink-arg=-fuse-ld=mold",
+
+  # Nightly
+  "-Zshare-generics=y",
+  "-Zthreads=0",
+]
+# Some systems may experience linker performance issues when running doc tests.
+# See https://github.com/bevyengine/bevy/issues/12207 for details.
+rustdocflags = [
+  "-Clink-arg=-fuse-ld=mold",
+]
+
+[target.x86_64-pc-windows-msvc]
+# LLD linker - You may need to install it:
+# ```
+# cargo install -f cargo-binutils
+# rustup component add llvm-tools
+# ```
+linker = "rust-lld.exe"
+rustdocflags = ["-Clinker=rust-lld.exe"]
+rustflags = [
+  "-Zshare-generics=n", # This needs to be off if you use dynamic linking on Windows.
+  "-Zthreads=0",
+]
+
+[unstable]
+codegen-backend = true
+
+[profile.dev]
+codegen-backend = "cranelift"
+
+[profile.dev.package."*"]
+codegen-backend = "llvm"

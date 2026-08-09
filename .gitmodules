@@ -1,0 +1,3 @@
+[submodule "assets/fonts/promptfont"]
+	path = assets/fonts/promptfont
+	url = https://codeberg.org/shinmera/promptfont.git
