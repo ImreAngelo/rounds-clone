@@ -24,12 +24,12 @@
     <a href="https://bevy.org/">
         <picture>
             <source
-                width="100%"
+                width="240"
                 srcset="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_dark.svg"
                 media="(prefers-color-scheme: dark)"
             />
             <source
-                width="100%"
+                width="240"
                 srcset="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_light.svg"
                 media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
             />
@@ -68,17 +68,10 @@ Other operative systems are not tested but should be possible to support with mi
 > ```make build PLATFORM=linux```
 
 <h3 id="install-wsl">Setup on Linux (WSL)</h3>
-<ol>
-<li>
-Setup steam
+
+1. Setup steam
 ```sudo snap install steam```
-</li>
-<li>
-Symlink steam to `~/.steam/`
+2. Symlink steam to `~/.steam/`
 ```ln -s ~/snap/steam/common/.steam ~/.steam```
-</li>
-<li>
-Run dev mode with steam running
+3. Run dev mode with steam running
 ```make dev```
-</li>
-</ol>
