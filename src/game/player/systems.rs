@@ -5,20 +5,9 @@ use bevy_tnua::prelude::*;
 
 use super::components::*;
 use super::bundles::*;
+use super::inputs::*;
 
 const HAND_RADIUS: f32 = 41.0;
-
-#[derive(InputAction)]
-#[action_output(Vec2)]
-pub(crate) struct Move;
-
-#[derive(InputAction)]
-#[action_output(bool)]
-pub(crate) struct Jump;
-
-#[derive(InputAction)]
-#[action_output(Vec2)]
-pub(crate) struct Aim;
 
 
 /// Create a host controller on startup
@@ -64,10 +53,9 @@ pub fn join_on_gamepad_connect(
 	}
 }
 
-
-pub fn apply_controls(
+pub fn apply_movement(
 	controllers: Query<(Entity, &Controls), With<PlayerController>>,
-	move_actions: Query<(&Action<Move>, &ActionOf<PlayerController>)>,
+	move_actions: Query<(&Action<Movement>, &ActionOf<PlayerController>)>,
 	jump_actions: Query<(&TriggerState, &ActionOf<PlayerController>), With<Action<Jump>>>,
 	mut pawns: Query<&mut TnuaController<PlayerScheme>, With<Pawn>>,
 ) {
@@ -98,6 +86,34 @@ pub fn apply_controls(
 	}
 }
 
+///
+pub fn shoot_weapon(
+	shoot: On<Fire<Shoot>>,
+	query: Query<(Entity, &Controls), With<PlayerController>>,
+	// aim_actions: Query<(&Action<Aim>, &ActionOf<PlayerController>)>,
+	// pawns: Query<(&GlobalTransform, &Children), With<Pawn>>,
+	// hands: Query<&mut Transform, With<Hand>>,
+) {
+	if let Ok(controller) = query.get(shoot.context) {
+		info!("Player {} fired their gun!", controller.0);
+	};
+	
+
+	// for (controller_entity, controls) in &controllers {
+	// 	// let Ok((pawn_transform, children)) = pawns.get(controls.0) else { continue };
+		
+	// 	// let action_of = ActionOf::new(controller_entity);
+
+	// 	// for press in shoot_actions {
+	// 	// 	// info!("{}", press.0);
+	// 	// }
+	// }
+}
+
+
+/// Update the position of the players gun
+/// The gun is always X units away from the player, and points towards
+/// the players aim direction (from controller stick of mouse cursor)
 pub fn update_hand(
 	controllers: Query<(Entity, &Controls), With<PlayerController>>,
 	aim_actions: Query<(&Action<Aim>, &ActionOf<PlayerController>)>,

@@ -18,7 +18,7 @@ pub fn spawn_players(
 
 		let pawn = commands
             .spawn((
-                Pawn { id: player.id() },
+                Pawn { _id: player.id() },
                 Transform::from_xyz(x, 0.0, 0.0),
                 Mesh2d(meshes.add(Circle::new(25.0))),
                 MeshMaterial2d(materials.add(Color::srgb(0.9, 0.2, 0.2))),
