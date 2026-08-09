@@ -24,16 +24,16 @@
     <a href="https://bevy.org/">
         <picture>
             <source
-                width="240"
+                width="100"
                 srcset="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_dark.svg"
                 media="(prefers-color-scheme: dark)"
             />
             <source
-                width="240"
+                width="100"
                 srcset="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_light.svg"
                 media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
             />
-            <img width="240" src="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_dark.svg" />
+            <img width="100" src="https://raw.githubusercontent.com/bevyengine/bevy/refs/heads/main/assets/branding/bevy_logo_dark.svg" />
         </picture>
     </a>
 </p>
@@ -65,7 +65,10 @@ Other operative systems are not tested but should be possible to support with mi
 
 > [!NOTE]
 > To quickly change target platform, set the PLATFORM variable with make:
-> ```make build PLATFORM=linux```
+>
+> ```sh
+> make build PLATFORM=linux
+> ```
 
 <h3 id="install-wsl">Setup on Linux (WSL)</h3>
 
